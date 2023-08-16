@@ -1,11 +1,12 @@
 {
-  "name": "scalable-teacher-student-app",
+  "name": "admin-system",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "apitest": "npx mocha test/mockAPI.test.js"
   },
   "author": "",
   "license": "ISC",

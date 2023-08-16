@@ -37,8 +37,7 @@ module.exports = (studentService, teacherService) => {
       teacherService.addStudentLinks(RegisteredStudents,TeacherEmail);
       res.status(200).json({ message: 'successfully added students to teacher' });
     } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Error adding student' });
+      res.status(500).json({ message: 'Error adding student to respective' });
     }
   });
 
@@ -70,8 +69,7 @@ module.exports = (studentService, teacherService) => {
       teacherService.removeStudentLink(studentEmail,TeacherEmail);
       res.status(200).json({ message: 'successfully added students to teacher' });
     } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Error adding student' });
+      res.status(500).json({ message: 'Error removing student from teacher list' });
     }
   });
 
@@ -85,8 +83,8 @@ module.exports = (studentService, teacherService) => {
       res.status(200).json({ students: commonStudents });
       
     } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Error adding student' });
+      
+      res.status(500).json({ message: 'Error retrieving students from particular teacher' });
     }
   });
 
