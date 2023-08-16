@@ -29,6 +29,11 @@ module.exports = (studentService, teacherService) => {
       if (RegisteredStudents.length === 0) {
         return res.status(404).json({ message: 'No students found' });
       }
+
+      // check if all students are added
+      if (RegisteredStudents.length < studentList.length) {
+        return res.status(501).json({ message: 'not all students are registered in the database' });
+      }
       studentService.addStudentLinks(RegisteredStudents,TeacherEmail.teacher_id);
       res.status(200).json({ message: 'successfully added students to teacher' });
     } catch (error) {
