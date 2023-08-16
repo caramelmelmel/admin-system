@@ -22,7 +22,7 @@ module.exports = (studentService, teacherService) => {
       }
       
       const TeacherEmail = await getRegisterViaEmail(teacher,teacherService.teacherModel);
-      if(!TeacherEmail|| !TeacherEmail.teacher_id) {
+      if(!TeacherEmail|| !TeacherEmail.id) {
         return res.status(404).json({ message: 'Teacher cannot be found' });
       }
       const RegisteredStudents = await studentService.getRegisteredStudents(studentList);
@@ -45,37 +45,39 @@ module.exports = (studentService, teacherService) => {
   router.post('/deregister', async (req, res) => {
     try {
       const { teacher, student, reason } = req.body;
-    
+      console.log(teacher)
+      console.log(student)
 
       if (isEmptyEntry(teacher) || isEmptyEntry(student)|| isEmptyEntry(reason)) {
         return res.status(400).json({ message: 'Empty entries' });
       }
 
-      let validStudentEmail = !isValidEmail(student);
+      let validStudentEmail = isValidEmail(student);
       if (!isValidEmail(teacher) ||!validStudentEmail) {
         return res.status(400).json({ message: 'Enter only email addresses' });
       }
       
       const TeacherEmail = await getRegisterViaEmail(teacher,teacherService.teacherModel);
-      if(!TeacherEmail|| !TeacherEmail.teacher_id) {
+      if(!TeacherEmail|| !TeacherEmail.id) {
         return res.status(404).json({ message: 'Teacher cannot be found' });
       }
-      const RegisteredStudents = await studentService.getRegisteredStudents(studentList);
-      if (RegisteredStudents.length === 0) {
-        return res.status(404).json({ message: 'No students found' });
+      const studentEmail = await getRegisterViaEmail(student,studentService.studentModel);
+      if(!studentEmail|| !studentEmail.id) {
+        return res.status(404).json({ message: 'Student cannot be found' });
       }
-
-      // check if all students are added
-      if (RegisteredStudents.length < studentList.length) {
-        return res.status(501).json({ message: 'not all students are registered in the database' });
+      const isRegistered = await TeacherEmail.hasStudent(studentEmail);
+      if (!isRegistered) {
+        return res.status(404).json({ message: 'student is not attached to requested teacher' });
       }
-      studentService.addStudentLinks(RegisteredStudents,TeacherEmail.teacher_id);
+      teacherService.removeStudentLink(studentEmail,TeacherEmail);
       res.status(200).json({ message: 'successfully added students to teacher' });
     } catch (error) {
       console.log(error)
       res.status(500).json({ message: 'Error adding student' });
     }
   });
+
+  
 
   return router;
 };

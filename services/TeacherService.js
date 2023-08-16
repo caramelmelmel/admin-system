@@ -17,7 +17,10 @@ class TeacherService {
         return await this.teacherModel.findOne({ where: { email: teacherEmail } });
     }
     async addStudentLinks(studentList,teacher) {
-        return await teacher.setStudents(studentList)
+        return await teacher.setStudents(studentList);
+    }
+    async removeStudentLink(student,teacher) {
+        return await teacher.removeStudent(student);
     }
   }
   

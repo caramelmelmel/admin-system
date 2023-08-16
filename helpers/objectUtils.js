@@ -2,7 +2,7 @@
 async function getRegisterViaEmail(email, model) {
     let ExistingEmail;
     try{
-        ExistingEmail = await model.findOne({where:{email}}).catch(err=>err);
+        ExistingEmail = await model.findOne({where:{email}})
     }
     catch(err) {
         ExistingEmail = err

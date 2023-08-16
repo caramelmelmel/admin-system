@@ -16,22 +16,10 @@ module.exports = (studentService) => {
     if (studentEmail) {
         return res.status(409).json({ message: 'Student with this email already exists' });
     }
-    
+
       const student = await studentService.addStudent(email, name);
       return res.status(201).json(student);
   });
-
-  router.get('/', async (req, res) => {
-    try {
-      const { email, name } = req.body;
-      
-      const student = await studentService.getStudent(email, name);
-      res.status(201).json(student);
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Error adding student' });
-    }
-  })
 
   return router;
 };
