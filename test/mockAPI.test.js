@@ -9,7 +9,7 @@ describe('API Tests', () => {
   let mockTeacherService;
   let mockStudentService;
 
-  before(() => {
+  beforeEach(() => {
     container = createContainer();
 
     mockTeacherService = {

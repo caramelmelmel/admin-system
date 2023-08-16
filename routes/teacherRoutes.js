@@ -10,7 +10,6 @@ module.exports = (teacherService) => {
         return res.status(400).json({ message: 'Bad request' });
     }
     const TeacherEmail = await getRegisterViaEmail(email,teacherService.teacherModel);
-    console.log(`teacher email is ${TeacherEmail}`)
     if (TeacherEmail) {
         return res.status(409).json({ message: 'Teacher with this email already exists' });
     }

@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "nodemon app.js",
-    "apitest": "npx mocha test/mockAPI.test.js"
+    "test": "jest && npx mocha test/mockAPI.test.js",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
