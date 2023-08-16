@@ -1,14 +1,19 @@
 
 async function EmailExists(email, model) {
-    const ExistingEmail = await model.findOne({where:{email}});
+    let ExistingEmail;
+    try{
+        ExistingEmail = await model.findOne({where:{email}}).catch(err=>err);
+    }
+    catch(err) {
+        ExistingEmail = err
+    }
+    
     return ExistingEmail;
 }
 
 function isEmptyEntry(property) {
-    console.log( !property || (typeof property === 'string' && property===''))
-    return !property || (typeof property === 'string' && property==='');
+    return !property || ((typeof property === 'string' && property==='') || (Array.isArray(property)&& property.length===0));
 }
-
 
 /**
  *  Checks for valid email formats
@@ -16,7 +21,7 @@ function isEmptyEntry(property) {
  * @returns boolean
  * 
  */
-async function isValidEmail(email) {
+function isValidEmail(email) {
     if (typeof email !== 'string') {
         return false
     }
