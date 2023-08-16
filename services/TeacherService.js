@@ -2,7 +2,7 @@ class TeacherService {
     constructor(teacherModel, studentModel) {
       this.teacherModel = teacherModel;
       this.studentModel = studentModel;
-      this.teacherModel.hasMany(studentModel, {as: 'students'});
+      this.teacherModel.belongsToMany(this.studentModel, {through: 'TeacherStudent'});
     }
     
     async addTeacher(email, name) {
@@ -15,6 +15,9 @@ class TeacherService {
 
     async getTeacherViaEmail(teacherEmail) {
         return await this.teacherModel.findOne({ where: { email: teacherEmail } });
+    }
+    async addStudentLinks(studentList,teacher) {
+        return await teacher.setStudents(studentList)
     }
   }
   

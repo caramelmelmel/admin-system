@@ -18,7 +18,7 @@ const studentModel = Student;
 
 // Initialize services with manual dependency injection
 const teacherService = new TeacherService(teacherModel, studentModel);
-const studentService = new StudentService(studentModel);
+const studentService = new StudentService(studentModel,teacherModel);
 
 // Inject services into route handlers
 app.use('/api/teachers', teacherRoutes(teacherService));

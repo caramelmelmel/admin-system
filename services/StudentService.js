@@ -1,6 +1,8 @@
 class StudentService {
-    constructor(studentModel) {
-      this.studentModel = studentModel;
+    constructor(studentModel,teacherModel) {
+        this.teacherModel = teacherModel;
+        this.studentModel = studentModel;
+        this.studentModel.belongsToMany(this.teacherModel, {through: 'TeacherStudent'});
     }
   
     async addStudent(email, name) {
@@ -10,10 +12,6 @@ class StudentService {
     async getRegisteredStudents(studentEmails) {
         const student = await this.studentModel.findAll({where: {email: studentEmails}});
         return student;
-    }
-
-    async addStudentLinks(studentList,teacher_id) {
-        this.studentModel.update({TeacherTeacherId: teacher_id }, {where: {id: studentList.map(student => student.id)}})
     }
   }
   
