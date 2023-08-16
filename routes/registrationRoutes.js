@@ -45,8 +45,6 @@ module.exports = (studentService, teacherService) => {
   router.post('/deregister', async (req, res) => {
     try {
       const { teacher, student, reason } = req.body;
-      console.log(teacher)
-      console.log(student)
 
       if (isEmptyEntry(teacher) || isEmptyEntry(student)|| isEmptyEntry(reason)) {
         return res.status(400).json({ message: 'Empty entries' });
@@ -77,7 +75,20 @@ module.exports = (studentService, teacherService) => {
     }
   });
 
-  
+  router.get('/commonstudents', async (req, res) => {
+    try {
+      let teachers = req.query.teacher
+      if (!teachers || !Array.isArray(teachers)) {
+        return res.status(400).json({ message: 'Invalid input' });
+      }
+      const commonStudents = await teacherService.getCommonStudents(teachers);
+      res.status(200).json({ students: commonStudents });
+      
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Error adding student' });
+    }
+  });
 
   return router;
 };

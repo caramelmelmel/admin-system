@@ -21,10 +21,11 @@ module.exports = (teacherService) => {
 
   router.get('/', async (req, res) => {
     try {
-      const teachers = await teacherService.getTeachersWithStudents();
-      res.status(200).json(teachers);
+      const teacherListObj = await teacherService.getAllTeachersWithRespectiveStudents();
+      res.status(200).json(teacherListObj);
     } catch (error) {
-      res.status(500).json({ message: 'Error fetching teachers' });
+      console.error(error)
+      res.status(500).json({ message: 'ServiceClient failed' });
     }
   });
 

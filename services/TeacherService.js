@@ -5,18 +5,36 @@ class TeacherService {
       this.teacherModel.belongsToMany(this.studentModel, {through: 'TeacherStudent'});
     }
     
+    getStudentEmailList(students) {
+        let studentList = [];
+        students.forEach(student => {
+            studentList.push(student.email);
+        })
+        return studentList;
+    }
+
     async addTeacher(email, name) {
       return await this.teacherModel.create({ email, name });
     }
-  
+
     async getAllTeachersWithRespectiveStudents() {
+        let classList = []
+        let classRegistry = {}
         const teachers = await this.teacherModel.findAll({
             include: {
               model: this.studentModel,
               attributes: ['email'],
             },
           });
-          return teachers
+          teachers.forEach(teacher => {
+            let teacherStudentMap = {}
+            const students = this.getStudentEmailList(teacher.Students)
+            teacherStudentMap["email"] = teacher.email;
+            teacherStudentMap["students"] = students;
+            classList.push(teacherStudentMap)
+          });
+          classRegistry["teachers"] = classList;
+          return classRegistry;
     }
 
     async getTeacherViaEmail(teacherEmail) {
