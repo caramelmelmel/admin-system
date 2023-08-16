@@ -14,7 +14,12 @@ class TeacherService {
     }
 
     async addTeacher(email, name) {
-      return await this.teacherModel.create({ email, name });
+        try {
+            return await this.teacherModel.create({ email, name });
+        }
+        catch(err) {
+            return err
+        }
     }
 
     async getAllTeachersWithRespectiveStudents() {

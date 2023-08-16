@@ -27,7 +27,9 @@ app.use('/api/students', studentRoutes(studentService));
 app.use('/api', registrationRoutes(studentService,teacherService));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   await sequelize.sync({ force: true, alter:true }); // Sync database models
 });
+
+module.exports = server
