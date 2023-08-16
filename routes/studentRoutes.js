@@ -13,10 +13,10 @@ module.exports = (studentService) => {
     }
       const studentEmail = await getRegisterViaEmail(email,studentService.studentModel);
       
-    if (studentEmail && !(studentEmail instanceof Error)) {
+    if (studentEmail) {
         return res.status(409).json({ message: 'Student with this email already exists' });
     }
-
+    
       const student = await studentService.addStudent(email, name);
       return res.status(201).json(student);
   });

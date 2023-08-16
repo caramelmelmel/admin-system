@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const Teacher = require('./models/Teacher');
 const Student = require('./models/Student');
 const sequelize = require('./database');
@@ -7,6 +6,7 @@ const TeacherService = require('./services/TeacherService');
 const StudentService = require('./services/StudentService');
 const teacherRoutes = require('./routes/teacherRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const registrationRoutes = require('./routes/registrationRoutes');
 
 const app = express();
 app.use(express.json());
@@ -24,7 +24,7 @@ const studentService = new StudentService(studentModel);
 app.use('/api/teachers', teacherRoutes(teacherService));
 app.use('/api/students', studentRoutes(studentService));
 
-app.use('/api', studentRoutes(studentService));
+app.use('/api', registrationRoutes(studentService,teacherService));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {

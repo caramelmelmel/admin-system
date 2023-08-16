@@ -1,5 +1,5 @@
 
-async function EmailExists(email, model) {
+async function getRegisterViaEmail(email, model) {
     let ExistingEmail;
     try{
         ExistingEmail = await model.findOne({where:{email}}).catch(err=>err);
@@ -29,4 +29,4 @@ function isValidEmail(email) {
     return emailRegex.test(email)
 }
 
-module.exports = {EmailExists, isEmptyEntry, isValidEmail};
+module.exports = {getRegisterViaEmail, isEmptyEntry, isValidEmail};

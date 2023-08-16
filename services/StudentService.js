@@ -7,9 +7,13 @@ class StudentService {
       return await this.studentModel.create({ email, name });
     }
 
-    async getStudent() {
-        const student = await this.studentModel.findAll();
+    async getRegisteredStudents(studentEmails) {
+        const student = await this.studentModel.findAll({where: {email: studentEmails}});
         return student;
+    }
+
+    async addStudentLinks(studentList,teacher_id) {
+        this.studentModel.update({TeacherTeacherId: teacher_id }, {where: {id: studentList.map(student => student.id)}})
     }
   }
   

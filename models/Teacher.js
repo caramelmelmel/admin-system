@@ -6,15 +6,16 @@ const Teacher = sequelize.define('Teacher', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        unique: true
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
 });
 

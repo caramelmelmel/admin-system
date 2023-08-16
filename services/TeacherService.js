@@ -12,6 +12,10 @@ class TeacherService {
     async getTeachersWithStudents() {
       return await this.teacherModel.findAll({ include: this.studentModel });
     }
+
+    async getTeacherViaEmail(teacherEmail) {
+        return await this.teacherModel.findOne({ where: { email: teacherEmail } });
+    }
   }
   
   module.exports = TeacherService;
