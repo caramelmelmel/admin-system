@@ -5,9 +5,13 @@
 
 You will get a postgres terminal. Then run the following:
 ```CREATE USER caramel WITH PASSWORD 'password';```
-```GRANT CREATEDB ON DATABASE admin TO caramel;
+
+```GRANT CREATEDB ON DATABASE admin TO caramel;```
+
+```
 GRANT CONNECT ON DATABASE admin TO caramel;```
-Run `\q` to quit the terminal
+
+```\q```
 
 3. Install all dependencies
 ```npm i```
