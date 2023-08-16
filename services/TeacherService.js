@@ -9,18 +9,42 @@ class TeacherService {
       return await this.teacherModel.create({ email, name });
     }
   
-    async getTeachersWithStudents() {
-      return await this.teacherModel.findAll({ include: this.studentModel });
+    async getAllTeachersWithRespectiveStudents() {
+        const teachers = await this.teacherModel.findAll({
+            include: {
+              model: this.studentModel,
+              attributes: ['email'],
+            },
+          });
+          return teachers
     }
 
     async getTeacherViaEmail(teacherEmail) {
         return await this.teacherModel.findOne({ where: { email: teacherEmail } });
     }
     async addStudentLinks(studentList,teacher) {
-        return await teacher.setStudents(studentList);
+        return await teacher.addStudent(studentList);
     }
     async removeStudentLink(student,teacher) {
         return await teacher.removeStudent(student);
+    }
+
+    async getCommonStudents(teacerEmails) {
+        const teachers = await this.teacherModel.findAll({
+            where: { email: teacerEmails },
+            include: {
+              model: this.studentModel,
+              attributes: ['email'],
+            },
+          });
+          if (teachers.length > 1) {
+            const commonStudents = teachers[0].Students.filter((student) =>
+              teachers.every((teacher) => teacher.Students.some((tStudent) => tStudent.email === student.email))
+            );
+            return commonStudents.map((student) => student.email);
+          } else {
+            return [];
+          }
     }
   }
   
